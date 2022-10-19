@@ -47,4 +47,4 @@ test: ## run tests
 	go test -cover -v ./... -count=1
 
 .PHONY: ci-test
-ci-test: generate generate-diff-check lint test ## ci test
+ci-test: generate generate-diff-check install-deps-dev lint test ## ci test
