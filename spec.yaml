@@ -13103,6 +13103,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VirtualPrivateGateway'
+          description: FIXME
         "404":
           description: 指定された VPG は存在しない
       security:
@@ -17861,7 +17862,7 @@ components:
           format: int64
           type: integer
         location:
-          typ: object
+          type: object
         online:
           description: |
             セッション状態
