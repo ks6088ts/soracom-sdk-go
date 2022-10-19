@@ -101,7 +101,7 @@ type Configuration struct {
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
 		DefaultHeader:    make(map[string]string),
-		UserAgent:        "ks6088ts/soracom-sdk-go/0.0.0",
+		UserAgent:        "ks6088ts/soracom-sdk-go/0.0.1",
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
