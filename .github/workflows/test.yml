@@ -19,4 +19,4 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - name: Run CI test
-        run: make ci-test
+        run: make ci-test GOPATH=/home/runner/go
