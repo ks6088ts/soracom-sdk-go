@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ks6088ts/soracom-sdk-go/openapiclient"
+	"github.com/ks6088ts/soracom-sdk-go/generated/api"
 )
 
 func getServerIndex(coverageType string) (int, error) {
@@ -21,13 +21,13 @@ func getServerIndex(coverageType string) (int, error) {
 }
 
 type SoracomClient struct {
-	Client       *openapiclient.APIClient
-	AuthResponse *openapiclient.AuthResponse
+	Client       *api.APIClient
+	AuthResponse *api.AuthResponse
 	serverIndex  int
 }
 
 func (c *SoracomClient) GetContext(ctx context.Context) context.Context {
-	contextApiKeys := map[string]openapiclient.APIKey{
+	contextApiKeys := map[string]api.APIKey{
 		"api_key": {
 			Key: *c.AuthResponse.ApiKey,
 		},
@@ -35,8 +35,8 @@ func (c *SoracomClient) GetContext(ctx context.Context) context.Context {
 			Key: *c.AuthResponse.Token,
 		},
 	}
-	authCtx := context.WithValue(ctx, openapiclient.ContextAPIKeys, contextApiKeys)
-	return context.WithValue(authCtx, openapiclient.ContextServerIndex, c.serverIndex)
+	authCtx := context.WithValue(ctx, api.ContextAPIKeys, contextApiKeys)
+	return context.WithValue(authCtx, api.ContextServerIndex, c.serverIndex)
 }
 
 var (
@@ -49,13 +49,13 @@ func TestMain(m *testing.M) {
 	authKey := os.Getenv("SORACOM_AUTH_KEY")
 	coverageType := os.Getenv("COVERAGE_TYPE")
 
-	authRequest := openapiclient.AuthRequest{
+	authRequest := api.AuthRequest{
 		AuthKey:   &authKey,
 		AuthKeyId: &authKeyId,
 	}
 
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	resp, r, err := apiClient.AuthApi.Auth(context.Background()).AuthRequest(authRequest).Execute()
 	if err != nil {

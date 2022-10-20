@@ -43,10 +43,6 @@ format: ## format codes
 lint: ## lint
 	golangci-lint run -v
 
-# Note: Set environment variables as follows
-# 	$ export SORACOM_AUTH_KEY_ID=$(cat ~/.soracom/default.json | jq -r .authKeyId)
-# 	$ export SORACOM_AUTH_KEY=$(cat ~/.soracom/default.json | jq -r .authKey)
-# 	$ export COVERAGE_TYPE=$(cat ~/.soracom/default.json | jq -r .coverageType)
 .PHONY: test
 test: ## run tests
 	go test -cover -v ./... -count=1
