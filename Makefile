@@ -16,7 +16,7 @@ help:
 generate: ## run OpenAPI Generator
 	rm -rf $(GENERATED_DIR)/$(PACKAGE_NAME)
 	npx @openapitools/openapi-generator-cli generate \
-		--input-spec spec.yaml \
+		--input-spec specs/$(PACKAGE_NAME).yaml \
 		--generator-name go \
 		--output $(GENERATED_DIR)/$(PACKAGE_NAME) \
 		--package-name $(PACKAGE_NAME) \
