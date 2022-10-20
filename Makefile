@@ -1,4 +1,5 @@
-GENERATED_DIR ?= openapiclient
+PACKAGE_NAME ?= api
+GENERATED_DIR ?= generated
 SOURCE_FILES ?= $(shell find . -not -path "./$(GENERATED_DIR)/*" -type f -name '*.go' -print)
 
 GOLANGCI_LINT_VERSION ?= 1.50.0
@@ -13,17 +14,17 @@ help:
 
 .PHONY: generate
 generate: ## run OpenAPI Generator
-	rm -rf $(GENERATED_DIR)
+	rm -rf $(GENERATED_DIR)/$(PACKAGE_NAME)
 	npx @openapitools/openapi-generator-cli generate \
-		--input-spec spec.yaml \
+		--input-spec specs/$(PACKAGE_NAME).yaml \
 		--generator-name go \
-		--output $(GENERATED_DIR) \
-		--package-name $(GENERATED_DIR) \
+		--output $(GENERATED_DIR)/$(PACKAGE_NAME) \
+		--package-name $(PACKAGE_NAME) \
 		--git-host github.com \
 		--git-user-id ks6088ts \
 		--git-repo-id soracom-sdk-go \
 		--http-user-agent ks6088ts/soracom-sdk-go/$(GIT_TAG)
-	cd $(GENERATED_DIR) && rm -rf .openapi-generator api .gitignore .openapi-generator-ignore .travis.yml git_push.sh go.mod go.sum
+	cd $(GENERATED_DIR)/$(PACKAGE_NAME) && rm -rf .openapi-generator api .gitignore .openapi-generator-ignore .travis.yml git_push.sh go.mod go.sum
 
 .PHONY: generate-diff-check
 generate-diff-check: ## check if generated codes are the same as tracked ones
@@ -42,10 +43,6 @@ format: ## format codes
 lint: ## lint
 	golangci-lint run -v
 
-# Note: Set environment variables as follows
-# 	$ export SORACOM_AUTH_KEY_ID=$(cat ~/.soracom/default.json | jq -r .authKeyId)
-# 	$ export SORACOM_AUTH_KEY=$(cat ~/.soracom/default.json | jq -r .authKey)
-# 	$ export COVERAGE_TYPE=$(cat ~/.soracom/default.json | jq -r .coverageType)
 .PHONY: test
 test: ## run tests
 	go test -cover -v ./... -count=1
